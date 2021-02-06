@@ -71,13 +71,13 @@ int main()
 	txtr_background = myBlit.load_texture(TXTR_INTERSECTION, renderer);		
 	
 	myCars[0].texture = myBlit.load_texture(TXTR_CAR, renderer);
-	myCars[0].spawn(600, 270, 0, 0.01); //rechts
+	myCars[0].spawn(600, 270, 0, 0.05); //rechts
 	myCars[1].texture = myBlit.load_texture(TXTR_CAR, renderer);
-	myCars[1].spawn(330, 600, 90, 0.01); //onder
+	myCars[1].spawn(330, 600, 90, 0.05); //onder
 	myCars[2].texture = myBlit.load_texture(TXTR_CAR, renderer);
-	myCars[2].spawn(0, 330, -180, 0.01); //links
+	myCars[2].spawn(0, 330, -180, 0.05); //links
 	myCars[3].texture = myBlit.load_texture(TXTR_CAR, renderer);
-	myCars[3].spawn(270, 0, -90, 0.01); //boven
+	myCars[3].spawn(270, 0, -90, 0.05); //boven
 
 	Stoplichten[0].spawn(420, 200, -90); //rechts
 	Stoplichten[1].spawn(400, 420, 0); //onder
@@ -106,25 +106,25 @@ int main()
 			myCars[i].update_coords();
 			myBlit.angled(myCars[i].texture, myCars[i].getX(), myCars[i].getY(), myCars[i].getAngle(), CAR_ZOOM, renderer);
 			myBlit.angled(Stoplichten[i].getTexture(), Stoplichten[i].getX(), Stoplichten[i].getY(), Stoplichten[i].getAngle(), STOPLICHT_ZOOM, renderer);
+								
 			if (Stoplichten[i].getStoplichtState() == "rood")
 			{
 				myBlit.angled(Stoplichten[i].lampen[0].getTexture(), Stoplichten[i].lampen[0].getX(), Stoplichten[i].lampen[0].getY(), 0, LAMP_ZOOM, renderer);
 				if (myCars[i].getAngle() == 90) //identify cars (i=0)
 				{
-						if (myCars[i].getY() <= 450 && myCars[i].getY() >= 400) //detectielussen
+						if (myCars[i].getY() <= 500 && myCars[i].getY() >= 450) //detectielussen
 						{
 							myCars[i].setVel(0); //stop voor rood
 							accel[i] = 0;
-						}
-						if (Stoplichten[1].getStoplichtState() == "rood" && Stoplichten[2].getStoplichtState() == "rood" && Stoplichten[3].getStoplichtState() == "rood")
-						{
-
-							Stoplichten[i].setStoplichtState("groen");
-							Stoplichten[i].resetTimer
-							if (myCars[i].getVel() <= 0.02)
+							if (Stoplichten[0].getStoplichtState() == "rood" &&
+					          	    Stoplichten[1].getStoplichtState() == "rood" &&
+						  	    Stoplichten[2].getStoplichtState() == "rood" &&
+						   	    Stoplichten[3].getStoplichtState() == "rood")
 							{
-								accel[i] += 0.005;
-								myCars[i].setVel(accel[i]);
+
+								Stoplichten[i].setStoplichtState("groen");
+								Stoplichten[i].resetTimer();
+								Stoplichten[i].updateTimer();
 							}
 						}
 				}
@@ -144,34 +144,38 @@ int main()
 							myCars[i].setVel(0);
 				}
 			}
+
 			if (Stoplichten[i].getStoplichtState() == "groen")
 			{
+				if (accel[i] <= 0.05)
+				{
+					accel[i] += 0.01;
+					myCars[i].setVel(accel[i]);
+				}
 				myBlit.angled(Stoplichten[i].lampen[2].getTexture(), Stoplichten[i].lampen[2].getX(), Stoplichten[i].lampen[2].getY(), 0, LAMP_ZOOM, renderer);
 				if (Stoplichten[i].isTimerNull())
 				{
 					Stoplichten[i].setStoplichtState("oranje");
+					Stoplichten[i].updateTimer();
+					
 				}
 			}
+
 			if (Stoplichten[i].getStoplichtState() == "oranje")
 			{
 				myBlit.angled(Stoplichten[i].lampen[1].getTexture(), Stoplichten[i].lampen[1].getX(), Stoplichten[i].lampen[1].getY(), 0, LAMP_ZOOM, renderer);
 				if (Stoplichten[i].isTimerNull())
 				{
 					Stoplichten[i].setStoplichtState("rood");
+					Stoplichten[i].updateTimer();
 				}
 			}
-			/*if (Stoplichten[i].getStoplichtState() == "rood")
-			{
-				if (Stoplichten[i].isTimerNull())
-				{
-					Stoplichten[i].resetTimer();
-					Stoplichten[i].setStoplichtState("groen");
-				}
-			}*/
+			//std::cout << "Stoplicht: " << i << " heeft staat op: " << Stoplichten[i].getStoplichtState() << std::endl; 
+
 		}
 
-		for (int i = 0; i < AANTAL_STOPLICHTEN; i++)
-		{
+		//for (int i = 0; i < AANTAL_STOPLICHTEN; i++)
+		//{
 			
 			//std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_BETWEEN_STATES));	
 			//Stoplichten[i].setStoplichtState("groen"); //Controller
@@ -182,7 +186,7 @@ int main()
 			//std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_BETWEEN_STATES));
 			//Stoplichten[i].setStoplichtState("rood");
 			//std::cout << "Stoplicht " << i << " staat op: " << Stoplichten[i].getStoplichtState() << std::endl;
-		}
+		//}
 
 		SDL_RenderPresent(renderer);
 	}

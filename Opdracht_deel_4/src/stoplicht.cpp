@@ -111,7 +111,7 @@ void stoplicht::resetTimer()
 
 void stoplicht::updateTimer()
 {
-	if (timer<1000)
+	if (timer<5000)
 		timer++;
 	else 
 		timer = 0;
