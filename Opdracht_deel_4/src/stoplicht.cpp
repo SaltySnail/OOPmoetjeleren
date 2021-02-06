@@ -67,6 +67,7 @@ void stoplicht::spawnLamps()
 			lampen[i].setCoords(x+22*i-22, y);
 		}	
 	}
+
 	if (angle == 0) //onder
 	{
 		for (int i = 0; i < 3; i++)
@@ -110,10 +111,16 @@ void stoplicht::resetTimer()
 
 void stoplicht::updateTimer()
 {
-	if (timer<3000)
+	if (timer<1000)
 		timer++;
 	else 
 		timer = 0;
 }
 
-
+bool stoplicht::isTimerNull()
+{
+	if (timer)
+		return false;
+	else
+	        return true;	
+}	

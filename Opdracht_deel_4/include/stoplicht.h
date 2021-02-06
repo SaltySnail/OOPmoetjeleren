@@ -26,6 +26,7 @@ class stoplicht
 		double getAngle();
 		void resetTimer();
 		void updateTimer();
+		bool isTimerNull();	
 };
 
 #endif

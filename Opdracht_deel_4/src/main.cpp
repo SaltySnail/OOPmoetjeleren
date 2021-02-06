@@ -32,6 +32,7 @@ SDL_Renderer *renderer = NULL;
 
 int main()
 {
+	double accel[AANTAL_AUTOS];
 	int framecounter;
 	SDL_Texture *txtr_background;
 	blit myBlit;
@@ -101,7 +102,7 @@ int main()
 		
 		for (int i = 0; i < AANTAL_AUTOS; i++)
 		{
-
+			Stoplichten[i].updateTimer();
 			myCars[i].update_coords();
 			myBlit.angled(myCars[i].texture, myCars[i].getX(), myCars[i].getY(), myCars[i].getAngle(), CAR_ZOOM, renderer);
 			myBlit.angled(Stoplichten[i].getTexture(), Stoplichten[i].getX(), Stoplichten[i].getY(), Stoplichten[i].getAngle(), STOPLICHT_ZOOM, renderer);
@@ -110,8 +111,22 @@ int main()
 				myBlit.angled(Stoplichten[i].lampen[0].getTexture(), Stoplichten[i].lampen[0].getX(), Stoplichten[i].lampen[0].getY(), 0, LAMP_ZOOM, renderer);
 				if (myCars[i].getAngle() == 90) //identify cars (i=0)
 				{
-						if (myCars[i].getY() <= 500 && myCars[i].getY() >= 400) //detectielussen
+						if (myCars[i].getY() <= 450 && myCars[i].getY() >= 400) //detectielussen
+						{
 							myCars[i].setVel(0); //stop voor rood
+							accel[i] = 0;
+						}
+						if (Stoplichten[1].getStoplichtState() == "rood" && Stoplichten[2].getStoplichtState() == "rood" && Stoplichten[3].getStoplichtState() == "rood")
+						{
+
+							Stoplichten[i].setStoplichtState("groen");
+							Stoplichten[i].resetTimer
+							if (myCars[i].getVel() <= 0.02)
+							{
+								accel[i] += 0.005;
+								myCars[i].setVel(accel[i]);
+							}
+						}
 				}
 				if (myCars[i].getAngle() == -90)
 				{
@@ -129,6 +144,30 @@ int main()
 							myCars[i].setVel(0);
 				}
 			}
+			if (Stoplichten[i].getStoplichtState() == "groen")
+			{
+				myBlit.angled(Stoplichten[i].lampen[2].getTexture(), Stoplichten[i].lampen[2].getX(), Stoplichten[i].lampen[2].getY(), 0, LAMP_ZOOM, renderer);
+				if (Stoplichten[i].isTimerNull())
+				{
+					Stoplichten[i].setStoplichtState("oranje");
+				}
+			}
+			if (Stoplichten[i].getStoplichtState() == "oranje")
+			{
+				myBlit.angled(Stoplichten[i].lampen[1].getTexture(), Stoplichten[i].lampen[1].getX(), Stoplichten[i].lampen[1].getY(), 0, LAMP_ZOOM, renderer);
+				if (Stoplichten[i].isTimerNull())
+				{
+					Stoplichten[i].setStoplichtState("rood");
+				}
+			}
+			/*if (Stoplichten[i].getStoplichtState() == "rood")
+			{
+				if (Stoplichten[i].isTimerNull())
+				{
+					Stoplichten[i].resetTimer();
+					Stoplichten[i].setStoplichtState("groen");
+				}
+			}*/
 		}
 
 		for (int i = 0; i < AANTAL_STOPLICHTEN; i++)
