@@ -130,18 +130,57 @@ int main()
 				}
 				if (myCars[i].getAngle() == -90)
 				{
-						if (myCars[i].getY() >= 100 && myCars[i].getY() <= 200)
+						if (myCars[i].getY() >= 100 && myCars[i].getY() <= 150)
+						{
 							myCars[i].setVel(0);
+							accel[i] = 0;
+							if (Stoplichten[0].getStoplichtState() == "rood" &&
+					          	    Stoplichten[1].getStoplichtState() == "rood" &&
+						  	    Stoplichten[2].getStoplichtState() == "rood" &&
+						   	    Stoplichten[3].getStoplichtState() == "rood")
+							{
+
+								Stoplichten[i].setStoplichtState("groen");
+								Stoplichten[i].resetTimer();
+								Stoplichten[i].updateTimer();
+							}
+						}
 				}
 				if (myCars[i].getAngle() == -180)
 				{
-						if (myCars[i].getX() >= 100 && myCars[i].getX() <= 200)
-							myCars[i].setVel(0);	
+						if (myCars[i].getX() >= 100 && myCars[i].getX() <= 150)
+						{
+							myCars[i].setVel(0);
+							accel[i] = 0;	
+							if (Stoplichten[0].getStoplichtState() == "rood" &&
+					          	    Stoplichten[1].getStoplichtState() == "rood" &&
+						  	    Stoplichten[2].getStoplichtState() == "rood" &&
+						   	    Stoplichten[3].getStoplichtState() == "rood")
+							{
+
+								Stoplichten[i].setStoplichtState("groen");
+								Stoplichten[i].resetTimer();
+								Stoplichten[i].updateTimer();
+							}
+						}
 				}
 				if (myCars[i].getAngle() == 0)
 				{	
-						if (myCars[i].getX() <= 500 && myCars[i].getX() >= 400)
+						if (myCars[i].getX() <= 500 && myCars[i].getX() >= 450)
+						{
 							myCars[i].setVel(0);
+							accel[i] = 0;
+							if (Stoplichten[0].getStoplichtState() == "rood" &&
+					          	    Stoplichten[1].getStoplichtState() == "rood" &&
+						  	    Stoplichten[2].getStoplichtState() == "rood" &&
+						   	    Stoplichten[3].getStoplichtState() == "rood")
+							{
+
+								Stoplichten[i].setStoplichtState("groen");
+								Stoplichten[i].resetTimer();
+								Stoplichten[i].updateTimer();
+							}
+						}
 				}
 			}
 
