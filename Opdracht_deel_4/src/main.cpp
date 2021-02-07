@@ -71,13 +71,13 @@ int main()
 	txtr_background = myBlit.load_texture(TXTR_INTERSECTION, renderer);		
 	
 	myCars[0].texture = myBlit.load_texture(TXTR_CAR, renderer);
-	myCars[0].spawn(600, 270, 0, 0.05); //rechts
+	myCars[0].spawn(600, 270, 0, 0.1); //rechts
 	myCars[1].texture = myBlit.load_texture(TXTR_CAR, renderer);
-	myCars[1].spawn(330, 600, 90, 0.05); //onder
+	myCars[1].spawn(330, 600, 90, 0.1); //onder
 	myCars[2].texture = myBlit.load_texture(TXTR_CAR, renderer);
-	myCars[2].spawn(0, 330, -180, 0.05); //links
+	myCars[2].spawn(0, 330, -180, 0.1); //links
 	myCars[3].texture = myBlit.load_texture(TXTR_CAR, renderer);
-	myCars[3].spawn(270, 0, -90, 0.05); //boven
+	myCars[3].spawn(270, 0, -90, 0.1); //boven
 
 	Stoplichten[0].spawn(420, 200, -90); //rechts
 	Stoplichten[1].spawn(400, 420, 0); //onder
@@ -186,7 +186,7 @@ int main()
 
 			if (Stoplichten[i].getStoplichtState() == "groen")
 			{
-				if (accel[i] <= 0.05)
+				if (accel[i] <= 0.1)
 				{
 					accel[i] += 0.01;
 					myCars[i].setVel(accel[i]);
@@ -209,23 +209,16 @@ int main()
 					Stoplichten[i].updateTimer();
 				}
 			}
-			//std::cout << "Stoplicht: " << i << " heeft staat op: " << Stoplichten[i].getStoplichtState() << std::endl; 
-
+			//keep cars in screen:
+			if (myCars[i].getX() >= 650)
+				myCars[i].setX(-49);
+			if (myCars[i].getX() <= -50)
+				myCars[i].setX(649);
+			if (myCars[i].getY() >= 650)
+				myCars[i].setY(-49);
+			if (myCars[i].getY() <= -50)
+				myCars[i].setY(649);
 		}
-
-		//for (int i = 0; i < AANTAL_STOPLICHTEN; i++)
-		//{
-			
-			//std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_BETWEEN_STATES));	
-			//Stoplichten[i].setStoplichtState("groen"); //Controller
-			//std::cout << "Stoplicht " << i << " staat op: " << Stoplichten[i].getStoplichtState() << std::endl; //View
-			//std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_BETWEEN_STATES));	
-			//Stoplichten[i].setStoplichtState("oranje");
-			//std::cout << "Stoplicht " << i << " staat op: " << Stoplichten[i].getStoplichtState() << std::endl;
-			//std::this_thread::sleep_for(std::chrono::milliseconds(DELAY_BETWEEN_STATES));
-			//Stoplichten[i].setStoplichtState("rood");
-			//std::cout << "Stoplicht " << i << " staat op: " << Stoplichten[i].getStoplichtState() << std::endl;
-		//}
 
 		SDL_RenderPresent(renderer);
 	}

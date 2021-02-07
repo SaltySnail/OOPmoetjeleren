@@ -16,6 +16,8 @@ class car
 		SDL_Texture *texture;
 		void spawn(int setx, int sety, double setangle, double setvel);
 		void update_coords();
+		void setX(int setX);
+		void setY(int setY);
 		int getX();
 		int getY();
 		double getAngle();

@@ -42,3 +42,13 @@ void car::setVel(double setVel)
 {
 	vel = setVel;
 }
+
+void car::setX(int setX)
+{
+	x = setX;
+}
+
+void car::setY(int setY)
+{
+	y = setY;
+}	
