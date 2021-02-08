@@ -5,30 +5,10 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "stoplicht.h"
-#include "lamp.h"
-#include "gfx_sim.h"
-#include "blit.h"
-#include "car.h"
+#include "init.h"
 
-#define DELAY_BETWEEN_STATES 1000
-#define AANTAL_STOPLICHTEN 4
-#define SCREEN_WIDTH 600
-#define SCREEN_HEIGHT 600
-#define CAR_ZOOM 1
-#define STOPLICHT_ZOOM -10
-#define LAMP_ZOOM -2
-#define AANTAL_AUTOS 4
-#define TXTR_INTERSECTION (char *)"textures/intersection.jpg"
-#define TXTR_CAR (char *)"textures/car.png"
-#define TXTR_STOPLICHT (char *)"textures/stoplicht.png"
-#define TXTR_LIGHT_RED (char *)"textures/red_light.png"
-#define TXTR_LIGHT_ORANGE (char *)"textures/orange_light.png"
-#define TXTR_LIGHT_GREEN (char *)"textures/green_light.png"
-
-
-SDL_Window *window = NULL;
-SDL_Renderer *renderer = NULL;
+SDL_Window *window;
+SDL_Renderer *renderer;
 
 int main()
 {
@@ -36,6 +16,7 @@ int main()
 	int framecounter;
 	SDL_Texture *txtr_background;
 	blit myBlit;
+	init init;
 	car myCars[AANTAL_AUTOS];
 	stoplicht Stoplichten[AANTAL_STOPLICHTEN];
 
@@ -43,30 +24,6 @@ int main()
 	//  SDL Config: //	
 	//=============//
 	 
-	unsigned int window_flags = 0;
-	unsigned int renderer_flags = SDL_RENDERER_ACCELERATED;
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		printf("Couldn't initialize SDL: %s\n", SDL_GetError());
-		exit(1);
-	}
-	window = SDL_CreateWindow("Cars go brr", 
-		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, 
-		SCREEN_HEIGHT, window_flags);
-	if (window == NULL)
-	{
-		printf("Failed to create window -- Error: %s\n",
-			SDL_GetError());
-		exit(1);
-	}
-	renderer = SDL_CreateRenderer(window, -1, renderer_flags);
-	if (renderer == NULL)
-	{
-		printf("Failed to create renderer -- Error: %s\n",
-			SDL_GetError());
-		exit(1);
-	}
-	IMG_Init(IMG_INIT_PNG);	
 
 	txtr_background = myBlit.load_texture(TXTR_INTERSECTION, renderer);		
 	
