@@ -7,8 +7,8 @@
 
 #include "init.h"
 
-SDL_Window *window;
-SDL_Renderer *renderer;
+SDL_Window *window = NULL;
+SDL_Renderer *renderer = NULL;
 
 int main()
 {
@@ -23,7 +23,8 @@ int main()
 	//==============//
 	//  SDL Config: //	
 	//=============//
-	 
+	
+       	init.sdl(&window, &renderer);	
 
 	txtr_background = myBlit.load_texture(TXTR_INTERSECTION, renderer);		
 	
