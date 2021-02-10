@@ -6,17 +6,17 @@ make: main.o
 	echo $(OBJ)
 	g++ -o Stoplichten $(CFLAGS) $(OBJ)
 
-main.o: stoplicht.o init.o 
+main.o: init.o 
 	g++ -c src/main.cpp -o obj/main.o $(CFLAGS)
+
+init.o: blit.o car.o stoplicht.o
+	g++ -c src/init.cpp -o obj/init.o $(CFLAGS)
 
 stoplicht.o: lamp.o
 	g++ -c src/stoplicht.cpp -o obj/stoplicht.o $(CFLAGS)
 
 lamp.o:
 	g++ -c src/lamp.cpp -o obj/lamp.o $(CFLAGS)
-
-init.o: blit.o car.o
-	g++ -c src/init.cpp -o obj/init.o $(CFLAGS)
 
 blit.o:
 	g++ -c src/blit.cpp -o obj/blit.o $(CFLAGS)

@@ -5,6 +5,8 @@
 #include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "blit.h"
+#include "init.h"
 
 
 class car 
@@ -23,6 +25,8 @@ class car
 		double getAngle();
 		double getVel();
 		void setVel(double setVel);
+		void initCars(car *myCars, SDL_Renderer *renderer);
+		void autoRespawn();
 };
 
 #endif

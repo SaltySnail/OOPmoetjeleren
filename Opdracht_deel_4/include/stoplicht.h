@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "lamp.h"
+#include "init.h"
 
 class stoplicht 
 {
@@ -18,7 +19,8 @@ class stoplicht
 		void setTexture(SDL_Texture *stoplicht_texture);
 		std::string getStoplichtState();
 		void  setStoplichtState(std::string setColor);
-		void  initStoplicht();
+		void initStoplicht();
+		void  initStoplichten(stoplicht *Stoplichten, SDL_Renderer *renderer);
 		void  spawn(int setX, int setY, double setAngle);
 		void spawnLamps();
 		int getX();
@@ -27,6 +29,7 @@ class stoplicht
 		void resetTimer();
 		void updateTimer();
 		bool isTimerNull();	
+		void detectielus(stoplicht *Stoplichten, int i);
 };
 
 #endif

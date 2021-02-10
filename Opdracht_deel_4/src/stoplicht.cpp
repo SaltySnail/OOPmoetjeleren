@@ -13,6 +13,14 @@ std::string stoplicht::getStoplichtState()
 	return "Lights off";	
 }
 
+void stoplicht::updateTimer()
+{
+	if (timer<2500)
+		timer++;
+	else 
+		timer = 0;
+}
+
 void stoplicht::setStoplichtState(std::string setColor)
 {
 	for (int i = 0; i < 3; i++)
@@ -24,6 +32,7 @@ void stoplicht::setStoplichtState(std::string setColor)
 			lampen[i].setState(State::on);
 		}
 	}
+	updateTimer();
 }
 
 void stoplicht::setTexture(SDL_Texture *stoplicht_texture)
@@ -94,6 +103,20 @@ void stoplicht::spawnLamps()
 	
 }
 
+void stoplicht::resetTimer()
+{
+	timer = 0;
+}
+
+
+bool stoplicht::isTimerNull()
+{
+	if (timer)
+		return false;
+	else
+	        return true;	
+}
+
 void stoplicht::initStoplicht()
 {
 	for (int i = 0; i < 3; i++)
@@ -104,23 +127,46 @@ void stoplicht::initStoplicht()
 	spawnLamps();
 }
 
-void stoplicht::resetTimer()
+void stoplicht::detectielus(stoplicht *Stoplichten, int i)
 {
-	timer = 0;
+	for (int j = 0; j < AANTAL_STOPLICHTEN; j++)
+	{
+		if (Stoplichten[j].getStoplichtState() == "rood")
+		{
+			if (j == AANTAL_STOPLICHTEN-1)
+			{
+				//Stoplichten[i].
+					setStoplichtState("groen");
+				//Stoplichten[i].
+					resetTimer();
+				//Stoplichten[i].
+					updateTimer();
+			}
+		}
+		else
+		{	
+			break;
+		}
+	}
 }
 
-void stoplicht::updateTimer()
+void stoplicht::initStoplichten(stoplicht *Stoplichten, SDL_Renderer *renderer)
 {
-	if (timer<2500)
-		timer++;
-	else 
-		timer = 0;
-}
+	blit myBlit;
 
-bool stoplicht::isTimerNull()
-{
-	if (timer)
-		return false;
-	else
-	        return true;	
+	Stoplichten[0].spawn(420, 200, -90); //rechts
+	Stoplichten[1].spawn(400, 420, 0); //onder
+	Stoplichten[2].spawn(180, 400, 90); //links
+	Stoplichten[3].spawn(200, 180, 180); //boven
+
+
+	for (int i = 0; i < AANTAL_STOPLICHTEN; i++)
+	{
+		Stoplichten[i].lampen[0].setTexture(myBlit.load_texture(TXTR_LIGHT_RED, renderer));
+		Stoplichten[i].lampen[1].setTexture(myBlit.load_texture(TXTR_LIGHT_ORANGE, renderer));
+		Stoplichten[i].lampen[2].setTexture(myBlit.load_texture(TXTR_LIGHT_GREEN, renderer));
+		Stoplichten[i].initStoplicht();
+		Stoplichten[i].setTexture(myBlit.load_texture(TXTR_STOPLICHT, renderer));
+		Stoplichten[i].setStoplichtState("rood");
+	}
 }	

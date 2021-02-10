@@ -1,12 +1,15 @@
 #ifndef INIT
 #define INIT
 
+#include <iostream>
+#include <string>
+#include <chrono>
+#include <thread>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 #include "stoplicht.h"
 #include "lamp.h"
-#include "gfx_sim.h"
 #include "blit.h"
 #include "car.h"
 
