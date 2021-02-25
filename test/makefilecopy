@@ -1,0 +1,14 @@
+CFLAGS = -std=c++11 `sdl2-config --cflags --libs` -lSDL2_image -lm -I include/
+OBJ = $(wildcard *.o)
+
+
+make: waves.o
+#	echo $(OBJ)
+	g++ -o waves $(CFLAGS) $(OBJ)
+
+waves.o:  
+	g++ -c waves.cpp -o waves.o $(CFLAGS)
+
+
+clean:
+	rm -f $(OBJ)
